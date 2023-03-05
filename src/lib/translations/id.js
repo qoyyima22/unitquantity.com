@@ -183,8 +183,13 @@ export const UNITS = {
     bytes: "byte",
 }
 
+export const COMMON = {
+    h1Lv0: "Konversi dan Kalkulasi Satuan dan Besaran Terlengkap"
+}
+
 export default {
     QTS,
     PREFIXES,
-    UNITS
+    UNITS,
+    COMMON
 }

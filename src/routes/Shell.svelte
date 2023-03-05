@@ -40,7 +40,7 @@
 				</label>
 			</div>
 			<!-- <div class="flex-1 px-2 mx-2"></div> -->
-			<div class="flex-none lg:block w-full">
+			<div class="flex-none lg:block w-10/12 md:w-11/12">
 				<!-- hidden -->
 				<div class="form-control w-full">
 					<input

@@ -183,7 +183,13 @@ export const UNITS = {
     bytes: "بايت",
 }
 
+export const COMMON = {
+    h1Lv0: "تحويل وحساب الوحدات والمقدار بالكامل"
+}
+
 export default {
+    QTS,
     PREFIXES,
-    UNITS
+    UNITS,
+    COMMON
 }

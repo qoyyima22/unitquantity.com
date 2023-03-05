@@ -1,4 +1,4 @@
 module.exports = {
   content: ['./src/routes/**/*.{svelte,js,ts}'],
-  plugins: [require('daisyui'),require("tailwindcss-flip")],
+  plugins: [require("@tailwindcss/typography"),require('daisyui'),require("tailwindcss-flip")],
 };

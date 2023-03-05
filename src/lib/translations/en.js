@@ -183,8 +183,13 @@ export const UNITS = {
     bytes: "bytes",
 }
 
+export const COMMON = {
+    h1Lv0: "All-in-One Unit and Measure Converter and Calculator"
+}
+
 export default {
     QTS,
     PREFIXES,
-    UNITS
+    UNITS,
+    COMMON
 }
