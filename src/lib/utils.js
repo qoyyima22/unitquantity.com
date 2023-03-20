@@ -33,7 +33,8 @@ export const cleanNumber = (v) => {
   let sid = (a.indexOf(".") || a.indexOf(",")) + 1
   if (!sid) return v
   for(let i = sid; i < a.length; i++) {
-    if(a.length - i >= 7 && (a[i] === '9' || a[i] === '0') && a[i] === a[i+1] && a[i] === a[i+2] && a[i] === a[i+3] && a[i] === a[i+4] && a[i] === a[i+5] && a[i] === a[i+6] && a[i] === a[i+7]) {
+    if(a.length - i >= 5 && (a[i] === '9' || a[i] === '0') && a[i] === a[i+1] && a[i] === a[i+2] && a[i] === a[i+3] && a[i] === a[i+4]) {
+      //  && a[i] === a[i+5] && a[i] === a[i+6] && a[i] === a[i+7]
       // if(i === sid) {
         // return v
       // }

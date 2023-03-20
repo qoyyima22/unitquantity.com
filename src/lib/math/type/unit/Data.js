@@ -1,81 +1,84 @@
 export var BASE_UNITS_RAW = {
     NONE: {
-        dimensions: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     MASS: {
-        dimensions: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     LENGTH: {
-        dimensions: [0, 1, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     TIME: {
-        dimensions: [0, 0, 1, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
     },
     CURRENT: {
-        dimensions: [0, 0, 0, 1, 0, 0, 0, 0, 0]
+        dimensions: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
     },
     TEMPERATURE: {
-        dimensions: [0, 0, 0, 0, 1, 0, 0, 0, 0]
+        dimensions: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
     },
     LUMINOUS_INTENSITY: {
-        dimensions: [0, 0, 0, 0, 0, 1, 0, 0, 0]
+        dimensions: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
     },
     AMOUNT_OF_SUBSTANCE: {
-        dimensions: [0, 0, 0, 0, 0, 0, 1, 0, 0]
+        dimensions: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     FORCE: {
-        dimensions: [1, 1, -2, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, 1, -2, 0, 0, 0, 0, 0, 0, 0]
     },
     SURFACE: {
-        dimensions: [0, 2, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 2, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     VOLUME: {
-        dimensions: [0, 3, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 3, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     ENERGY: {
-        dimensions: [1, 2, -2, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -2, 0, 0, 0, 0, 0, 0, 0]
     },
     POWER: {
-        dimensions: [1, 2, -3, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -3, 0, 0, 0, 0, 0, 0, 0]
     },
     PRESSURE: {
-        dimensions: [1, -1, -2, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, -1, -2, 0, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_CHARGE: {
-        dimensions: [0, 0, 1, 1, 0, 0, 0, 0, 0]
+        dimensions: [0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_CAPACITANCE: {
-        dimensions: [-1, -2, 4, 2, 0, 0, 0, 0, 0]
+        dimensions: [-1, -2, 4, 2, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_POTENTIAL: {
-        dimensions: [1, 2, -3, -1, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -3, -1, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_RESISTANCE: {
-        dimensions: [1, 2, -3, -2, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -3, -2, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_INDUCTANCE: {
-        dimensions: [1, 2, -2, -2, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -2, -2, 0, 0, 0, 0, 0, 0]
     },
     ELECTRIC_CONDUCTANCE: {
-        dimensions: [-1, -2, 3, 2, 0, 0, 0, 0, 0]
+        dimensions: [-1, -2, 3, 2, 0, 0, 0, 0, 0, 0]
     },
     MAGNETIC_FLUX: {
-        dimensions: [1, 2, -2, -1, 0, 0, 0, 0, 0]
+        dimensions: [1, 2, -2, -1, 0, 0, 0, 0, 0, 0]
     },
     MAGNETIC_FLUX_DENSITY: {
-        dimensions: [1, 0, -2, -1, 0, 0, 0, 0, 0]
+        dimensions: [1, 0, -2, -1, 0, 0, 0, 0, 0, 0]
     },
     FREQUENCY: {
-        dimensions: [0, 0, -1, 0, 0, 0, 0, 0, 0]
+        dimensions: [0, 0, -1, 0, 0, 0, 0, 0, 0, 0]
     },
     ANGLE: {
-        dimensions: [0, 0, 0, 0, 0, 0, 0, 1, 0]
+        dimensions: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     },
     BIT: {
-        dimensions: [0, 0, 0, 0, 0, 0, 0, 0, 1]
+        dimensions: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     },
     DENSITY: {
-        dimensions: [1, -3, 0, 0, 0, 0, 0, 0, 0]
+        dimensions: [1, -3, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    CURRENCY: {
+        dimensions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     }
 };
 export var PREFIXES_RAW = {
@@ -930,7 +933,8 @@ export var PREFIXES_RAW = {
     }
 };
 
-export var UNITS_RAW = (Complex={I:1},BASE_UNITS=BASE_UNITS_RAW,PREFIXES=PREFIXES_RAW) => ({
+export var UNITS_RAW = (Complex={I:1},BASE_UNITS=BASE_UNITS_RAW,PREFIXES=PREFIXES_RAW) => {
+    return ({
     // length
     meter: {
         name: 'meter',
@@ -2323,7 +2327,7 @@ export var UNITS_RAW = (Complex={I:1},BASE_UNITS=BASE_UNITS_RAW,PREFIXES=PREFIXE
         value: 8,
         offset: 0
     },
-});
+})};
 
 export var ALIASES_RAW = {
     meters: 'meter',

@@ -25,9 +25,6 @@
 		</div>
 		<!-- <Counter /> -->
 		<UnitConverter qts={Object.keys(BASE_UNITS_RAW)} {translations} {...converter} />
-		<div>
-			{JSON.stringify(converter.currency,null,3)}
-		</div>
 	</article>
 </section>
 

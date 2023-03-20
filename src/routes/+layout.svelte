@@ -1,8 +1,11 @@
 <script>
 	import Shell from './Shell.svelte';
-  	import { toast } from '$lib/stores.js'
+  	import { toast, unitsToAppend } from '$lib/stores.js'
 	import './styles.css';
-
+	export let data
+	let { unitsToAppend: uta } = data.converter
+	$unitsToAppend = uta
+	// $: console.log(unitsToAppend, "KKOKO")
 	$: {
 		if($toast.text) {
 			setTimeout(() => {

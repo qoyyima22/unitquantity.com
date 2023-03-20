@@ -10,13 +10,6 @@ export async function load({ params, fetch, ...x }) {
   let UNIT0 = x.url.searchParams.get('unit0')
   let UNIT1 = x.url.searchParams.get('unit1')
   let VALUE0 = x.url.searchParams.get('value0')
-  const response = await fetch('/api/currency', {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json'
-    }
-  });
-  let total = await response.json();
   return {
     translations: {
       ...TRANSLATIONS
@@ -25,8 +18,7 @@ export async function load({ params, fetch, ...x }) {
       activeTab: ACTIVE_TAB || 'NONE',
       activeUnit0: UNIT0,
       activeUnit1: UNIT1,
-      model0: VALUE0 || 1,
-      currency: total
+      model0: VALUE0 || 0
     }
   }
 }

@@ -1,12 +1,13 @@
 <script>
 	import { spring } from 'svelte/motion';
 	import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
-	import { evaluate, unit, format } from '$lib/math';
+	import { evaluate, unit, createUnit } from '$lib/math';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { toast } from '$lib/stores.js'
+	import { toast, unitsToAppend } from '$lib/stores.js'
 	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
+	import { onMount } from 'svelte'
 	export let qts = [];
 	export let activeTab = browser ? ($page.url.searchParams.get('qty') || "NONE") : "NONE";
 	export let activeUnit0 = browser ? $page.url.searchParams.get('unit0') : 0;
@@ -30,8 +31,9 @@
 				...Object.keys(PREFIXES_RAW.SHORT).map((el) => ({ ...PREFIXES_RAW.SHORT[el] }))
 			]; //, name: PREFIXES_RAW.LONG[el].name ? PREFIXES_RAW.LONG[el].name : '-'
 		} else {
-			temp = activeTab ? Object.keys(UNITS_RAW())
-				.map((el) => ({ ...UNITS_RAW()[el] }))
+			let allUnits = {...UNITS_RAW(), ...$unitsToAppend}
+			temp = activeTab ? Object.keys(allUnits)
+				.map((el) => ({ ...allUnits[el] }))
 				.filter(
 					(el) =>
 						el.base.dimensions.join('') ===
@@ -234,7 +236,7 @@
 	</div>
 	<div class="flex bg-base-200">
 		<div
-			class="collapse w-full collapse-arrow border border-info bg-base-100 rounded-box mx-0 my-2"
+			class="collapse w-full collapse-arrow border border-info bg-base-100 rounded-box mx-0 my-0.5"
 		>
 			<input type="checkbox" class="h-8 min-h-0" />
 			<div class="collapse-title text-sm h-8 min-h-0 py-1">
@@ -273,17 +275,20 @@
 		</div>
 	</div>
 	<div class="flex bg-base-200">
-		<ul class="flex-1 block menu menu-compact p-2 rounded-box max-h-60 overflow-y-auto">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0">
 			{#each units as unit, index}
-				<li>
+				<li class="m-0">
 					<button
-						class="py-1 flex justify-between"
+						class="p-1 flex justify-between"
 						class:active={index === activeUnit0 || unit.name === activeUnit0}
 						on:click={() => setFirstUserInteraction(() => (activeUnit0 = unit.name))}
-						>{unit.dName || '-'}
-						<div>
+						>
+						<div class="text-left">
+							{unit.dName || '-'}
+						</div>
+						<div class="flex justify-end flex-wrap">
 							{#each unit.alternativeNames as aName}
-								<div class="badge badge-success badge-xs">
+								<div class="badge badge-success badge-xs mt-0.5">
 									{aName}
 								</div>
 							{/each}
@@ -292,17 +297,20 @@
 				</li>
 			{/each}
 		</ul>
-		<ul class="flex-1 block menu menu-compact p-2 rounded-box max-h-60 overflow-y-auto">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0">
 			{#each units as unit, index}
-				<li>
+				<li class="m-0">
 					<button
-						class="py-1 flex justify-between"
+						class="p-1 flex justify-between"
 						class:active={index === activeUnit1 || unit.name === activeUnit1}
 						on:click={() => setFirstUserInteraction(() => (activeUnit1 = unit.name))}
-						>{unit.dName || '-'}
-						<div>
+						>
+						<div class="text-left">
+							{unit.dName || '-'}
+						</div>
+						<div class="flex justify-end flex-wrap">
 							{#each unit.alternativeNames as aName}
-								<div class="badge badge-success badge-xs">
+								<div class="badge badge-success badge-xs mt-0.5">
 									{aName}
 								</div>
 							{/each}
