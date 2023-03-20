@@ -1,8 +1,16 @@
 import { json } from '@sveltejs/kit';
+import { building } from '$app/environment';
 
 export const GET = async ({ request, platform }) => {
-	const CURRENCY = platform.env.CURRENCY; //from NameSpace
-	// await CURRENCY.put("all", JSON.stringify({
+	let a = json(JSON.stringify({result: {data:[]}}))
+	if(!building) {
+		const CURRENCY = platform.env.CURRENCY; //from NameSpace
+		if(CURRENCY) a = json(await CURRENCY?.get("all"))
+	}
+    return a
+};
+
+// await CURRENCY.put("all", JSON.stringify({
 	// 	"result": {
 	// 	  "data": [
 	// 		{
@@ -276,6 +284,3 @@ export const GET = async ({ request, platform }) => {
 	//   }), {
 	// 	metadata: { someMetadataKey: 'someMetadataValue' }
 	// });
-	let a = json(await CURRENCY.get("all"));
-    return a
-};

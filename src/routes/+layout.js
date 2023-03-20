@@ -2,7 +2,7 @@ import * as translations from '$lib/translations/index.js';
 import { browser } from '$app/environment';
 import { UNITS_RAW, BASE_UNITS_RAW as BASE_UNITS, PREFIXES_RAW as PREFIXES} from '$lib/math/type/unit/Data.js';
 import { evaluate, unit, createUnit, Unit } from '$lib/math';
-export const prerender = true;
+export const prerender = false;
 export const csr = true;
 
 /** @type {import('./$types').PageLoad} */
@@ -14,7 +14,8 @@ export async function load({ params, fetch, ...x }) {
       'content-type': 'application/json'
     }
   });
-  let currency = JSON.parse(await response.json());
+  let a = await response.json()
+  let currency = JSON.parse(a);
   let curs = currency.result.data
   let USD = curs.find(el => el.c === "USD")
   try {
