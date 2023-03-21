@@ -197,9 +197,9 @@
 				on:focus={() => (lastActiveField = 0)}
 				on:input={() => setFirstUserInteraction(() => onInput(0))}
 				placeholder="Type here"
-				class="block input input-bordered input-sm w-10/12 mx-1 px-1"
+				class="block input input-bordered input-sm w-11/12 mx-0 px-1 rounded-none h-8 min-h-8"
 			/>
-			<button class="btn btn-square w-6 h-8 min-h-8 btn-outline btn-info" title="Copy value" on:click={() => copyClip(model0)}>
+			<button class="btn btn-square w-6 h-8 min-h-8 btn-outline btn-info rounded-none" title="Copy value" on:click={() => copyClip(model0)}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-4 w-4"
@@ -219,9 +219,9 @@
 				on:focus={() => (lastActiveField = 1)}
 				on:input={() => setFirstUserInteraction(() => onInput(1))}
 				placeholder="Type here"
-				class="block input input-bordered input-sm w-10/12 mx-1 px-1"
+				class="block input input-bordered input-sm w-11/12 mx-0 px-1 rounded-none h-8 min-h-8"
 			/>
-			<button class="btn btn-square w-6 h-8 min-h-8 btn-outline btn-info" title="Copy value" on:click={() => copyClip(model1)}>
+			<button class="btn btn-square w-6 h-8 min-h-8 btn-outline btn-info rounded-none" title="Copy value" on:click={() => copyClip(model1)}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-4 w-4"
@@ -236,16 +236,16 @@
 	</div>
 	<div class="flex bg-base-200">
 		<div
-			class="collapse w-full collapse-arrow border border-info bg-base-100 rounded-box mx-0 my-0.5"
+			class="collapse w-full collapse-arrow border border-base-800 bg-primary-content mx-0 my-0.5"
 		>
-			<input type="checkbox" class="h-8 min-h-0" />
-			<div class="collapse-title text-sm h-8 min-h-0 py-1">
-				<span class="inline-block align-middle">Batch convert</span>
+			<input type="checkbox" class="h-7 min-h-0" />
+			<div class="collapse-title text-sm h-7 min-h-0 py-0 px-1 flex items-center">
+				<span>Batch convert</span>
 			</div>
 			<div class="collapse-content">
 				<div class="flex justify-between mt-2 items-center">
-					<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-10/12 mr-2" placeholder={"10\n5\n142\n..."} />
-					<button class="btn btn-square w-10 btn-info" title="Batch convert" on:click={batchConvert}>
+					<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-10/12 mr-2 rounded-none" placeholder={"10\n5\n142\n..."} />
+					<button class="btn btn-square w-10 btn-outline btn-info rounded-none" title="Batch convert" on:click={batchConvert}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -257,8 +257,8 @@
 						</svg>
 					</button>
 					<div class="h-40 w-full relative">
-						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full ml-2" placeholder="Result will be shown here" />
-						<button class="btn btn-square h-full absolute top-0 right-0 w-8 btn-outline btn-info ml-2" title="Copy result" on:click={() => copyClip(resultBatch)}>
+						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full ml-2 rounded-none" placeholder="Result will be shown here" />
+						<button class="btn btn-square h-full absolute top-0 -right-2 w-8 btn-outline btn-info ml-2 rounded-none" title="Copy result" on:click={() => copyClip(resultBatch)}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-6 w-6"
@@ -275,7 +275,7 @@
 		</div>
 	</div>
 	<div class="flex bg-base-200">
-		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none">
 			{#each units as unit, index}
 				<li class="m-0">
 					<button
@@ -297,7 +297,7 @@
 				</li>
 			{/each}
 		</ul>
-		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none">
 			{#each units as unit, index}
 				<li class="m-0">
 					<button
