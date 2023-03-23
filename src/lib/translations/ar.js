@@ -25,6 +25,7 @@ export const QTS = {
     ANGLE: "الزاوية",
     BIT: "بت",
     DENSITY: "الكثافة",
+    CURRENCY: "عملة"
 }
 
 export const PREFIXES = {

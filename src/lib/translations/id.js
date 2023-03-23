@@ -25,6 +25,7 @@ export const QTS = {
     ANGLE: "SUDUT",
     BIT: "BIT",
     DENSITY: "DENSITAS",
+    CURRENCY: "MATA UANG"
 }
 
 export const PREFIXES = {

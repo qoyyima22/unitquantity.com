@@ -1,8 +1,11 @@
 <script>
 	import { evaluate, unit } from '$lib/math';
+	import { page } from '$app/stores';
 	import { afterNavigate } from '$app/navigation';
 
 	let instantConvertModel = '';
+	let pageDataTr = $page.data.translations
+	$: searchResult = {}
 	let onInstantConvert = (e) => {
 		if (e.code === 'Enter') {
 			let evalRes = evaluate(instantConvertModel);
@@ -13,6 +16,17 @@
 			console.log(init, out);
 			let unitRes = unit(init).toNumber(out);
 			console.log(unit(init), unitRes, '2222');
+			let unitInfo = unit(init)
+			searchResult = {
+				qty: unitInfo?.units?.[0]?.unit?.base?.key,
+				qtyWord: pageDataTr.QTS[unitInfo?.units?.[0]?.unit?.base?.key],
+				val: unitRes,
+				initVal: init.replace(/[^0-9]/g,''),
+				from: init.replace(/[^A-Z]/gi,''),
+				fromWord: pageDataTr?.UNITS?.[init.replace(/[^A-Z]/gi,'')],
+				to: out,
+				toWord: pageDataTr?.UNITS?.[out],
+			}
 		}
 	};
 </script>
@@ -21,7 +35,7 @@
 	<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
 		<!-- Navbar -->
-		<header class="w-full navbar bg-base-300">
+		<header class="w-full navbar bg-base-300 min-h-12">
 			<div class="flex-none">
 				<!--lg:hidden-->
 				<label for="my-drawer-3" class="btn btn-square btn-ghost">
@@ -43,18 +57,52 @@
 			<div class="flex-none lg:block w-10/12 md:w-11/12">
 				<!-- hidden -->
 				<div class="form-control w-full">
-					<input
+					<div class="dropdown dropdown-end w-full">
+						<label tabindex="-1" class="btn btn-square btn-ghost w-full">
+							<!-- <svg class="inline-block w-6 h-6 stroke-current" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+								<g class="search-path" fill="none" stroke="#848F91"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g>
+							</svg> -->
+							<input
+							bind:value={instantConvertModel}
+							type="text"
+							placeholder="Instant Convert, eg: 500 g/cm^3 to kg/cm^3"
+							on:keydown={onInstantConvert}
+							class="input input-bordered w-full h-10"
+						/>
+						</label>
+						{#if searchResult.from}
+						<div tabindex="-1" class="dropdown-content menu p-2 shadow bg-base-100 w-full">
+						  <!-- <li><a>Item 1</a></li>
+						  <li><a>Item 2</a></li> -->
+							{JSON.stringify(searchResult)}
+						</div>
+						{/if}
+					  </div>
+					<!-- <input
 						bind:value={instantConvertModel}
 						type="text"
 						placeholder="Instant Convert, eg: 500 g/cm^3 to kg/cm^3"
 						on:keydown={onInstantConvert}
-						class="input input-bordered w-full"
-					/>
+						class="input input-bordered w-full h-10"
+					/> -->
 				</div>
 			</div>
+			<!-- <div class="dropdown dropdown-end">
+				<label tabindex="0" class="btn btn-square btn-ghost">
+					<svg class="inline-block w-6 h-6 stroke-current" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+						<g class="search-path" fill="none" stroke="#848F91"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g>
+					</svg>
+				</label>
+				<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+				  <li><a>Item 1</a></li>
+				  <li><a>Item 2</a></li>
+				</ul>
+			  </div> -->
 		</header>
 		<!-- Page content here -->
-		<slot />
+		<section class="w-full px-2 sm:px-0 sm:w-4/5 lg:w-1/2 mx-auto">
+			<slot />
+		</section>		
 		<footer class="footer p-10 bg-neutral text-neutral-content">
 			<div>
 				<svg

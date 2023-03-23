@@ -25,6 +25,7 @@ export const QTS = {
     ANGLE: "ANGLE",
     BIT: "BIT",
     DENSITY: "DENSITY",
+    CURRENCY: "CURRENCY"
 }
 
 export const PREFIXES = {
