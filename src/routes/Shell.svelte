@@ -7,7 +7,7 @@
 	let pageDataTr = $page.data.translations
 	$: searchResult = {}
 	let onInstantConvert = (e) => {
-		if (e.code === 'Enter') {
+		if (e.code === 'Enter' || e.code === "Tab") {
 			let evalRes = evaluate(instantConvertModel);
 			console.log(evalRes, 1);
 			// console.log(evaluate("45 mile/hour to meter/hour"))
@@ -64,7 +64,7 @@
 							</svg> -->
 							<input
 							bind:value={instantConvertModel}
-							type="text"
+							type="search"
 							placeholder="Instant Convert, eg: 500 g/cm^3 to kg/cm^3"
 							on:keydown={onInstantConvert}
 							class="input input-bordered w-full h-10"
@@ -74,7 +74,18 @@
 						<div tabindex="-1" class="dropdown-content menu p-2 shadow bg-base-100 w-full">
 						  <!-- <li><a>Item 1</a></li>
 						  <li><a>Item 2</a></li> -->
-							{JSON.stringify(searchResult)}
+							<article class="prose dark:prose-invert prose-h3:text-green-600 prose-h5:text-gray-600">
+								{#if searchResult.initVal && searchResult.val}
+									<h3>{ searchResult.val }  { searchResult.to } </h3>
+								{/if}
+								{#if searchResult.from && searchResult.to}
+									<h5>{ searchResult.to } {"->"} { searchResult.from } </h5>
+								{/if}
+								{#if searchResult.qty && searchResult.qtyWord}
+									<h5>{ searchResult.qtyWord } </h5>
+								{/if}
+								<!-- {JSON.stringify(searchResult)} -->
+							</article>
 						</div>
 						{/if}
 					  </div>
