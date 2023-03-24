@@ -7,7 +7,7 @@
 	let pageDataTr = $page.data.translations
 	$: searchResult = {}
 	let onInstantConvert = (e) => {
-		if (e.code === 'Enter' || e.code === "Tab") {
+		if (e.code === 'Enter' || e.code === "Tab" || e.key === 'Enter' ) {
 			let evalRes = evaluate(instantConvertModel);
 			console.log(evalRes, 1);
 			// console.log(evaluate("45 mile/hour to meter/hour"))
