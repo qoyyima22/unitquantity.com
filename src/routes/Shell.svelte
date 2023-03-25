@@ -19,7 +19,7 @@
 			let unitInfo = unit(init)
 			searchResult = {
 				qty: unitInfo?.units?.[0]?.unit?.base?.key,
-				qtyWord: pageDataTr.QTS[unitInfo?.units?.[0]?.unit?.base?.key],
+				qtyWord: pageDataTr?.QTS[unitInfo?.units?.[0]?.unit?.base?.key],
 				val: unitRes,
 				initVal: init.replace(/[^0-9]/g,''),
 				from: init.replace(/[^A-Z]/gi,''),
@@ -30,7 +30,7 @@
 		}
 	};
 	let getLangUrl = (lng) => {
-	  return `${$page.url.pathname.replace($page.params.lang,lng)}${browser ? $page.url.search : ""}`
+	  return `${$page.params.lang? $page.url.pathname.replace($page.params.lang,lng) : `/${lng}`}${browser ? $page.url.search : ""}`
 	}
 </script>
 
@@ -182,8 +182,8 @@
 	<div class="drawer-side">
 		<label for="my-drawer-3" class="drawer-overlay" />
 		<ul class="menu p-4 w-80 bg-base-100">
-			{#each Object.keys(pageDataTr.QTS) as qty, i}
-				<li><a href={`/${$page.params.lang}/${qty.toLowerCase()}`}>{pageDataTr.QTS[qty]}</a></li>
+			{#each Object.keys(pageDataTr?.QTS || {}) as qty, i}
+				<li><a href={`/${$page.params.lang}/${qty.toLowerCase()}`}>{pageDataTr?.QTS[qty]}</a></li>
 			{/each}
 		</ul>
 	</div>
