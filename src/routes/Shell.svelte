@@ -1,6 +1,7 @@
 <script>
 	import { evaluate, unit } from '$lib/math';
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 
 	let instantConvertModel = '';
 	let pageDataTr = $page.data.translations
@@ -29,7 +30,7 @@
 		}
 	};
 	let getLangUrl = (lng) => {
-	  return `${$page.url.pathname.replace($page.params.lang,lng)}${$page.url.search}`
+	  return `${$page.url.pathname.replace($page.params.lang,lng)}${browser ? $page.url.search : ""}`
 	}
 </script>
 
