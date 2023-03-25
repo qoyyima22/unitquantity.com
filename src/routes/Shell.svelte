@@ -1,7 +1,6 @@
 <script>
 	import { evaluate, unit } from '$lib/math';
 	import { page } from '$app/stores';
-	import { afterNavigate } from '$app/navigation';
 
 	let instantConvertModel = '';
 	let pageDataTr = $page.data.translations
@@ -29,6 +28,9 @@
 			}
 		}
 	};
+	let getLangUrl = (lng) => {
+	  return `${$page.url.pathname.replace($page.params.lang,lng)}${$page.url.search}`
+	}
 </script>
 
 <div class="drawer">
@@ -169,9 +171,9 @@
 							/></svg
 						></a
 					>
-					<a href="/ar" data-sveltekit-reload>ARABIC |</a>
-					<a href="/id" data-sveltekit-reload>BAHASA |</a>
-					<a href="/en" data-sveltekit-reload>ENGLISH |</a>
+					<a href={getLangUrl('ar')} data-sveltekit-reload>ARABIC |</a>
+					<a href={getLangUrl('id')} data-sveltekit-reload>BAHASA |</a>
+					<a href={getLangUrl('en')} data-sveltekit-reload>ENGLISH |</a>
 				</div>
 			</div>
 		</footer>
@@ -179,8 +181,9 @@
 	<div class="drawer-side">
 		<label for="my-drawer-3" class="drawer-overlay" />
 		<ul class="menu p-4 w-80 bg-base-100">
-			<li><a>Sidebar Item 1</a></li>
-			<li><a>Sidebar Item 2</a></li>
+			{#each Object.keys(pageDataTr.QTS) as qty, i}
+				<li><a href={`/${$page.params.lang}/${qty.toLowerCase()}`}>{pageDataTr.QTS[qty]}</a></li>
+			{/each}
 		</ul>
 	</div>
 </div>

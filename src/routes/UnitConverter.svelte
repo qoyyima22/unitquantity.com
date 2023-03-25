@@ -7,9 +7,8 @@
 	import { browser } from '$app/environment';
 	import { toast, unitsToAppend } from '$lib/stores.js'
 	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
-	import { onMount } from 'svelte'
 	export let qts = [];
-	export let activeTab = browser ? ($page.url.searchParams.get('qty') || "NONE") : "NONE";
+	export let activeTab = browser ? ($page.params.qty || $page.url.searchParams.get('qty').toUpperCase() || "NONE") : "NONE";
 	export let activeUnit0 = browser ? $page.url.searchParams.get('unit0') : 0;
 	export let activeUnit1 = browser ? $page.url.searchParams.get('unit1') : 1;
 	export let model0 = browser ? $page.url.searchParams.get('value0') : 0;
@@ -109,7 +108,9 @@
 			typeof activeUnit1 === 'string'
 		) {
 			if (browser) {
-				$page.url.searchParams.set('qty', activeTab);
+				if(!$page.params.qty) {
+					$page.url.searchParams.set('qty', activeTab.toLowerCase());
+				}
 				$page.url.searchParams.set('unit0', activeUnit0);
 				$page.url.searchParams.set('unit1', activeUnit1);
 				$page.url.searchParams.set('value0', model0);
@@ -176,7 +177,8 @@
 	$: displayed_count.set(count);
 	// $: offset = modulo($displayed_count, 1);
 </script>
-<div class="">
+<div>
+	{#if qts.length > 1}
 	<div class="tabs bg-base-300 flex flex-nowrap overflow-x-auto">
 		{#each qts as tab, index}
 			<button
@@ -188,6 +190,7 @@
 			</button>
 		{/each}
 	</div>
+	{/if}
 	<div class="flex bg-base-200">
 		<div class="flex-1 mt-2 flex">
 			<input
