@@ -14,6 +14,7 @@
 	export let model0 = browser ? $page.url.searchParams.get('value0') : 0;
 	export let model1 = 0;
 	export let translations = {}
+	export let units
 	let dom0;
 	let dom1;
 	let lastActiveField = 0
@@ -75,7 +76,13 @@
 		});
 		// return temp
 		// console.log([...res2],"res2")
-		return res2.length ? res2 : res;
+		let result = res2.length ? res2 : res
+		if($page.params.units) {
+				let a = result.find(el => el.name === $page.params.units.split("-to-")[0])
+				let b = result.find(el => el.name === $page.params.units.split("-to-")[1])
+				result = result.filter(el => el.name === a.name || el.name === b.name || el.value === a.value || el.value === b.value)
+			}
+		return result;
 	};
 	$: {
 		if (!units.find((el) => el.name === activeUnit0)) activeUnit0 = units?.[0]?.name || 0;
@@ -111,8 +118,10 @@
 				if(!$page.params.qty) {
 					$page.url.searchParams.set('qty', activeTab.toLowerCase());
 				}
-				$page.url.searchParams.set('unit0', activeUnit0);
-				$page.url.searchParams.set('unit1', activeUnit1);
+				if(!$page.params.units) {
+					$page.url.searchParams.set('unit0', activeUnit0);
+					$page.url.searchParams.set('unit1', activeUnit1);
+				}
 				$page.url.searchParams.set('value0', model0);
 				goto(`?${$page.url.searchParams.toString()}`, {
 					replaceState: true,
