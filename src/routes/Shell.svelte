@@ -29,7 +29,7 @@
 			}
 		}
 	};
-	let getLangUrl = (lng) => {
+	$: getLangUrl = (lng) => {
 	  return `${$page.params.lang? $page.url.pathname.replace($page.params.lang,lng) : `/${lng}`}${browser ? $page.url.search : ""}`
 	}
 </script>
