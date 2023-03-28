@@ -248,16 +248,18 @@
 	</div>
 	<div class="flex bg-base-200">
 		<div
-			class="collapse w-full collapse-arrow border border-base-800 bg-primary-content mx-0 my-0.5"
+			class="group collapse w-full collapse-arrow border border-base-800 bg-primary-content mx-0 my-0.5"
 		>
 			<input type="checkbox" class="h-7 min-h-0" />
 			<div class="collapse-title text-sm h-7 min-h-0 py-0 px-1 flex items-center">
-				<span>Batch convert</span>
+				<span class="group-hover:font-medium">Batch convert</span>
 			</div>
-			<div class="collapse-content">
+			<div class="collapse-content px-0">
 				<div class="flex justify-between mt-2 items-center">
-					<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-10/12 mr-2 rounded-none" placeholder={"10\n5\n142\n..."} />
-					<button class="btn btn-square w-10 btn-outline btn-info rounded-none" title="Batch convert" on:click={batchConvert}>
+					<div class="h-40 w-full relative">
+						<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-full rounded-none" placeholder={"10\n5\n142\n..."} />
+					</div>
+					<button class="btn btn-square w-10 mx-1 btn-outline btn-info rounded-none" title="Batch convert" on:click={batchConvert}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -269,8 +271,8 @@
 						</svg>
 					</button>
 					<div class="h-40 w-full relative">
-						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full ml-2 rounded-none" placeholder="Result will be shown here" />
-						<button class="btn btn-square h-full absolute top-0 -right-2 w-8 btn-outline btn-info ml-2 rounded-none" title="Copy result" on:click={() => copyClip(resultBatch)}>
+						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full rounded-none" placeholder="Result will be shown here" />
+						<button class="btn btn-square h-full absolute top-0 right-0 w-8 btn-outline btn-info ml-2 rounded-none" title="Copy result" on:click={() => copyClip(resultBatch)}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-6 w-6"
