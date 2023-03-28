@@ -78,8 +78,8 @@
 		// console.log([...res2],"res2")
 		let result = res2.length ? res2 : res
 		if($page.params.units) {
-				let a = result.find(el => el.name === $page.params.units.split("-to-")[0])
-				let b = result.find(el => el.name === $page.params.units.split("-to-")[1])
+				let a = result.find(el => el.name === $page.params.units.split("-to-")[0].replace("-",""))
+				let b = result.find(el => el.name === $page.params.units.split("-to-")[1].replace("-",""))
 				result = result.filter(el => el.name === a.name || el.name === b.name || el.value === a.value || el.value === b.value)
 			}
 		return result;

@@ -7,8 +7,8 @@ export const csr = true;
 export async function load({ params, fetch, ...x }) {
   let TRANSLATIONS = translations.default[params.lang] || {}
   let ACTIVE_TAB = params.qty?.toUpperCase()
-  let UNIT0 = params.units.split("-to-")?.[0] || x.url.searchParams.get('unit0')
-  let UNIT1 = params.units.split("-to-")?.[1] || x.url.searchParams.get('unit1')
+  let UNIT0 = params.units.split("-to-")?.[0]?.replace("-","") || x.url.searchParams.get('unit0')
+  let UNIT1 = params.units.split("-to-")?.[1]?.replace("-","") || x.url.searchParams.get('unit1')
   let VALUE0 = x.url.searchParams.get('value0')
   return {
     translations: {

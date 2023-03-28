@@ -18,7 +18,7 @@ export async function load({ params, fetch, ...x }) {
       let b = units[j]
       if (a.name !== b.name) {
         links.push({
-          v: `/${params.lang}/${params.qty}/${a.name}-to-${b.name}`,
+          v: `/${params.lang}/${params.qty}/${a.prefix ? `${a.prefix}-${a.baseName}` : a.name}-to-${b.prefix ? `${b.prefix}-${b.baseName}` : b.name}`,
           w: `${a.dName} to ${b.dName}`
         })
       }
@@ -66,7 +66,9 @@ let getUnits = (activeTab, translations) => {
           name: `${el2}${el.name}`,
           value: el.prefixes[el2].value * el.value,
           offset: el.offset,
-          dName: (pr?.[el2] || un?.[el.name]) ? `${pr[el2] || ""}${un[el.name] || el.name}` : `${el2}${el.name}`
+          dName: (pr?.[el2] || un?.[el.name]) ? `${pr[el2] || ""}${un[el.name] || el.name}` : `${el2}${el.name}`,
+          prefix: el2,
+          baseName: el.name
         });
       });
     } else if (activeTab === "NONE") {
