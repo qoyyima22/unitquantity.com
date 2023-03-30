@@ -16,7 +16,7 @@
 	export let model0 = browser ? $page.url.searchParams.get('value0') : 0;
 	export let model1 = 0;
 	export let translations = {}
-	export let units
+	export let units = []
 	let dom0;
 	let dom1;
 	let lastActiveField = 0
@@ -86,33 +86,33 @@
 			}
 		return result;
 	};
-	const { ref, scrollIntoView: siv } = useConveyer({
+	const { ref, scrollTo: siv } = qts.length > 1 ? useConveyer({
 		useSideWheel: true
-	});
-	const { ref: ref2, scrollTo: siv2 } = useConveyer({
+	}) : {ref: null, scrollIntoView: () => {}}
+	const { ref: ref2, scrollTo: siv2 } = !$page.params.units ? useConveyer({
 		horizontal: false,
-	});
-	const { ref: ref3, scrollTo: siv3 } = useConveyer({
+	}) : {ref:{call:()=>{}}, scrollTo:()=>{}}
+	const { ref: ref3, scrollTo: siv3 } = !$page.params.units ? useConveyer({
 		horizontal: false,
-	});
+	}) : {ref:{call:()=>{}}, scrollTo:()=>{}}
 	onMount(() => {
 		let tab = document.getElementById(`tab-${activeTab}`)
-		tab && siv(tab,{align:'center',duration:100})
+		tab && siv(Number(tab.offsetLeft) - Number(tab.parentElement.offsetLeft),{align:'start',duration:100})
 		let unitLeft = document.getElementById(`unit-left-${activeUnit0}`)
-		unitLeft && siv2(Number(unitLeft.offsetTop) - Number(unitLeft.parentElement.offsetTop),{duration:100})
+		unitLeft && Number(unitLeft.getAttribute('data-index')) > 6 && siv2(Number(unitLeft.offsetTop) - Number(unitLeft.parentElement.offsetTop),{duration:100})
 		let unitRight = document.getElementById(`unit-right-${activeUnit1}`)
-		unitRight && siv3(Number(unitRight.offsetTop) - Number(unitRight.parentElement.offsetTop),{duration:100})
+		unitRight && Number(unitRight.getAttribute('data-index')) > 6 && siv3(Number(unitRight.offsetTop) - Number(unitRight.parentElement.offsetTop),{duration:100})
 	})
 	$: {
 		if (!units.find((el) => el.name === activeUnit0)) {
 			activeUnit0 = units?.[0]?.name || 0
-			siv2(0,{duration:100})
+			ref2?.current && siv2(0,{duration:100})
 		};
 	}
 	$: {
 		if (!units.find((el) => el.name === activeUnit1)) {
 			activeUnit1 = units?.[1]?.name || 1
-			siv3(0,{duration:100})
+			ref3?.current && siv3(0,{duration:100})
 		};
 	}
 	$: {
@@ -317,7 +317,7 @@
 	<div class="flex bg-base-200">
 		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref2>
 			{#each units as unit, index}
-				<li class="m-0" id={`unit-left-${unit.name}`}>
+				<li class="m-0" id={`unit-left-${unit.name}`} data-index={index}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit0 || unit.name === activeUnit0}
@@ -339,7 +339,7 @@
 		</ul>
 		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref3>
 			{#each units as unit, index}
-				<li class="m-0" id={`unit-right-${unit.name}`}>
+				<li class="m-0" id={`unit-right-${unit.name}`} data-index={index}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit1 || unit.name === activeUnit1}
