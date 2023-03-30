@@ -40,6 +40,7 @@
 	"dependencies": {
 		"autoprefixer": "^10.4.13",
 		"daisyui": "^2.50.1",
+		"@egjs/svelte-conveyer": "1.4.7-beta.5",
 		"postcss": "^8.4.21"
 	}
 }

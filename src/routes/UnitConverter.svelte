@@ -7,6 +7,8 @@
 	import { browser } from '$app/environment';
 	import { toast, unitsToAppend } from '$lib/stores.js'
 	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
+	import { useConveyer } from "@egjs/svelte-conveyer";
+	import { onMount } from "svelte"
 	export let qts = [];
 	export let activeTab = browser ? ($page.params.qty || $page.url.searchParams.get('qty').toUpperCase() || "NONE") : "NONE";
 	export let activeUnit0 = browser ? $page.url.searchParams.get('unit0') : 0;
@@ -84,11 +86,34 @@
 			}
 		return result;
 	};
+	const { ref, scrollIntoView: siv } = useConveyer({
+		useSideWheel: true
+	});
+	const { ref: ref2, scrollTo: siv2 } = useConveyer({
+		horizontal: false,
+	});
+	const { ref: ref3, scrollTo: siv3 } = useConveyer({
+		horizontal: false,
+	});
+	onMount(() => {
+		let tab = document.getElementById(`tab-${activeTab}`)
+		tab && siv(tab,{align:'center',duration:100})
+		let unitLeft = document.getElementById(`unit-left-${activeUnit0}`)
+		unitLeft && siv2(Number(unitLeft.offsetTop) - Number(unitLeft.parentElement.offsetTop),{duration:100})
+		let unitRight = document.getElementById(`unit-right-${activeUnit1}`)
+		unitRight && siv3(Number(unitRight.offsetTop) - Number(unitRight.parentElement.offsetTop),{duration:100})
+	})
 	$: {
-		if (!units.find((el) => el.name === activeUnit0)) activeUnit0 = units?.[0]?.name || 0;
+		if (!units.find((el) => el.name === activeUnit0)) {
+			activeUnit0 = units?.[0]?.name || 0
+			siv2(0,{duration:100})
+		};
 	}
 	$: {
-		if (!units.find((el) => el.name === activeUnit1)) activeUnit1 = units?.[1]?.name || 1;
+		if (!units.find((el) => el.name === activeUnit1)) {
+			activeUnit1 = units?.[1]?.name || 1
+			siv3(0,{duration:100})
+		};
 	}
 	$: {
 		if (units.length && (typeof activeUnit0 === 'number' || typeof activeUnit1 === 'number')) {
@@ -188,9 +213,10 @@
 </script>
 <div>
 	{#if qts.length > 1}
-	<div class="tabs bg-base-300 flex flex-nowrap overflow-x-auto">
+	<div class="tabs bg-base-300 flex flex-nowrap overflow-x-auto" use:ref>
 		{#each qts as tab, index}
 			<button
+				id={`tab-${tab}`}
 				class="tab tab-lifted whitespace-nowrap"
 				class:tab-active={activeTab === index || activeTab === tab}
 				on:click={() => setFirstUserInteraction(() => activeTab = tab)}
@@ -289,9 +315,9 @@
 		</div>
 	</div>
 	<div class="flex bg-base-200">
-		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref2>
 			{#each units as unit, index}
-				<li class="m-0">
+				<li class="m-0" id={`unit-left-${unit.name}`}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit0 || unit.name === activeUnit0}
@@ -311,9 +337,9 @@
 				</li>
 			{/each}
 		</ul>
-		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none">
+		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref3>
 			{#each units as unit, index}
-				<li class="m-0">
+				<li class="m-0" id={`unit-right-${unit.name}`}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit1 || unit.name === activeUnit1}
