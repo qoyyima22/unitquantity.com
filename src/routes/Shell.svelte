@@ -2,6 +2,9 @@
 	import { evaluate, unit } from '$lib/math';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
+	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
+	import Icon from '@iconify/svelte';
+	import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
 
 	let instantConvertModel = '';
 	let pageDataTr = $page.data.translations
@@ -9,28 +12,48 @@
 	let onInstantConvert = (e) => {
 		if (e.code === 'Enter' || e.code === "Tab" || e.key === 'Enter' ) {
 			let evalRes = evaluate(instantConvertModel);
-			console.log(evalRes, 1);
-			// console.log(evaluate("45 mile/hour to meter/hour"))
 			let init = instantConvertModel.split(' to ')[0];
 			let out = instantConvertModel.split(' to ')[1];
 			console.log(init, out);
-			let unitRes = unit(init).toNumber(out);
-			console.log(unit(init), unitRes, '2222');
 			let unitInfo = unit(init)
+			let unitInfoOut = unit(out)
+			let unitRes = unitInfo.toNumber(out);
+			console.log(unitInfo, unitInfoOut, unitRes, '2222');
 			searchResult = {
 				qty: unitInfo?.units?.[0]?.unit?.base?.key,
 				qtyWord: pageDataTr?.QTS[unitInfo?.units?.[0]?.unit?.base?.key],
 				val: unitRes,
 				initVal: init.replace(/[^0-9]/g,''),
 				from: init.replace(/[^A-Z]/gi,''),
+				baseFrom: unitInfo?.units?.[0]?.unit,
+				prefixFrom: unitInfo?.units?.[0]?.prefix,
 				fromWord: pageDataTr?.UNITS?.[init.replace(/[^A-Z]/gi,'')],
 				to: out,
 				toWord: pageDataTr?.UNITS?.[out],
+				baseTo: unitInfoOut?.units?.[0]?.unit,
+				prefixTo: unitInfoOut?.units?.[0]?.prefix,
 			}
 		}
 	};
 	$: getLangUrl = (lng) => {
 	  return `${$page.params.lang? $page.url.pathname.replace($page.params.lang,lng) : `/${lng}`}${browser ? $page.url.search : ""}`
+	}
+	$: createLink = () => {
+	  let { qty,qtyWord,val,initVal,from,baseFrom,prefixFrom,fromWord,to,toWord,baseTo,prefixTo, } = searchResult
+	  let link = `/${$page.params.lang}/${qty.toLowerCase()}/`
+	  let lv3 = `${prefixFrom ? `${prefixFrom}-${baseFrom}` : from}-to-${prefixTo ? `${prefixTo}-${baseTo}` : to}`
+	  if(searchResult.qty !== "CURRENCY") {
+      let units = {...UNITS_RAW()}
+      let arr = Object.keys(units)
+      let f = arr.find(el => units[el].base.dimensions.join("") === baseFrom.dimensions.join("") && units[el].value === baseFrom.value && units[el].offset === baseFrom.offset)
+      let fps = units[f].prefixes
+      let fp = Object.keys(fps).find(el => units[f].prefixes[el].value === prefixFrom.value)
+      let t = arr.find(el => units[el].base.dimensions.join("") === baseTo.dimensions.join("") && units[el].value === baseTo.value && units[el].offset === baseTo.offset)
+      let tps = units[t].prefixes
+      let tp = Object.keys(tps).find(el => units[f].prefixes[el].value === prefixTo.value)
+	  	lv3 = `${fp ? `${fp}-${f}` : from}-to-${tp ? `${tp}-${t}` : to}`
+	  }
+	  return link+lv3
 	}
 </script>
 
@@ -74,18 +97,22 @@
 						/>
 						</label>
 						{#if searchResult.from}
-						<div tabindex="-1" class="dropdown-content menu p-2 shadow bg-base-100 w-full">
+						<div tabindex="-1" class="dropdown-content menu p-2 shadow bg-base-100 w-full shadow-xl">
 						  <!-- <li><a>Item 1</a></li>
 						  <li><a>Item 2</a></li> -->
 							<article class="prose dark:prose-invert prose-h3:text-green-600 prose-h5:text-gray-600">
 								{#if searchResult.initVal && searchResult.val}
-									<h3>{ searchResult.val }  { searchResult.to } </h3>
+									<h3 class="my-1">{ cleanNumber(searchResult.val) }  { searchResult.to } </h3>
 								{/if}
 								{#if searchResult.from && searchResult.to}
-									<h5>{ searchResult.to } {"->"} { searchResult.from } </h5>
+									<div>
+										<a href={createLink()}>{ searchResult.from } {"->"} { searchResult.to } <Icon icon="material-symbols:open-in-new-rounded" /></a>
+									</div>
 								{/if}
 								{#if searchResult.qty && searchResult.qtyWord}
-									<h5>{ searchResult.qtyWord } </h5>
+									<div>
+										<a href={`/${$page.params.lang}/${searchResult.qty.toLowerCase()}`}>{ searchResult.qtyWord } <Icon icon="material-symbols:open-in-new-rounded" /></a>
+									</div>
 								{/if}
 								<!-- {JSON.stringify(searchResult)} -->
 							</article>
