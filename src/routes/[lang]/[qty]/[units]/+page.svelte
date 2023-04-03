@@ -21,7 +21,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-	<article class="prose dark:prose-invert">
+	<article class="prose dark:prose-invert prose-sm">
 		<h1 class="mb-2 mt-2">{genTitle()}</h1>
 		<div class="text-sm breadcrumbs py-0">
 		  <ul class="pl-0 my-2">

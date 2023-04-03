@@ -283,7 +283,7 @@
 			<div class="collapse-content px-0">
 				<div class="flex justify-between mt-2 items-center">
 					<div class="h-40 w-full relative">
-						<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-full rounded-none" placeholder={"10\n5\n142\n..."} />
+						<textarea bind:value={modelBatch} class="h-40 leading-snug textarea textarea-bordered w-full rounded-none px-1" placeholder={"10\n5\n142\n..."} />
 					</div>
 					<button class="btn btn-square w-10 mx-1 btn-outline btn-info rounded-none" title="Batch convert" on:click={batchConvert}>
 						<svg
@@ -297,7 +297,7 @@
 						</svg>
 					</button>
 					<div class="h-40 w-full relative">
-						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full rounded-none" placeholder="Result will be shown here" />
+						<textarea bind:value={resultBatch} readonly class="h-40 leading-snug textarea textarea-bordered w-full rounded-none px-1" placeholder="Result will be shown here" />
 						<button class="btn btn-square h-full absolute top-0 right-0 w-8 btn-outline btn-info ml-2 rounded-none" title="Copy result" on:click={() => copyClip(resultBatch)}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -317,7 +317,7 @@
 	<div class="flex bg-base-200">
 		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref2>
 			{#each units as unit, index}
-				<li class="m-0" id={`unit-left-${unit.name}`} data-index={index}>
+				<li class="m-0 px-0" id={`unit-left-${unit.name}`} data-index={index}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit0 || unit.name === activeUnit0}
@@ -339,7 +339,7 @@
 		</ul>
 		<ul class="flex-1 block menu menu-compact p-0.5 rounded-box max-h-60 overflow-y-auto my-0 rounded-none" use:ref3>
 			{#each units as unit, index}
-				<li class="m-0" id={`unit-right-${unit.name}`} data-index={index}>
+				<li class="m-0 px-0" id={`unit-right-${unit.name}`} data-index={index}>
 					<button
 						class="p-1 flex justify-between"
 						class:active={index === activeUnit1 || unit.name === activeUnit1}

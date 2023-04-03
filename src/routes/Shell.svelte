@@ -5,6 +5,7 @@
 	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
 	import Icon from '@iconify/svelte';
 	import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
+	import { toast, unitsToAppend } from '$lib/stores.js'
 
 	let instantConvertModel = '';
 	let pageDataTr = $page.data.translations
@@ -20,6 +21,7 @@
 			let unitRes = unitInfo.toNumber(out);
 			console.log(unitInfo, unitInfoOut, unitRes, '2222');
 			searchResult = {
+				dimensions: unitInfo?.dimensions,
 				qty: unitInfo?.units?.[0]?.unit?.base?.key,
 				qtyWord: pageDataTr?.QTS[unitInfo?.units?.[0]?.unit?.base?.key],
 				val: unitRes,
@@ -51,9 +53,16 @@
       let t = arr.find(el => units[el].base.dimensions.join("") === baseTo.dimensions.join("") && units[el].value === baseTo.value && units[el].offset === baseTo.offset)
       let tps = units[t].prefixes
       let tp = Object.keys(tps).find(el => units[f].prefixes[el].value === prefixTo.value)
-	  	lv3 = `${fp ? `${fp}-${f}` : from}-to-${tp ? `${tp}-${t}` : to}`
+	  	lv3 = `${fp ? `${fp}-${f}` : f}-to-${tp ? `${tp}-${t}` : t}`
 	  }
 	  return link+lv3
+	}
+	let copyClip = (v) => {
+		let success = copyTextToClipboard(v)
+		if(success) $toast = {
+			text: "Copied!",
+			color: "success"
+		}
 	}
 </script>
 
@@ -100,16 +109,22 @@
 						<div tabindex="-1" class="dropdown-content menu p-2 shadow bg-base-100 w-full shadow-xl">
 						  <!-- <li><a>Item 1</a></li>
 						  <li><a>Item 2</a></li> -->
-							<article class="prose dark:prose-invert prose-h3:text-green-600 prose-h5:text-gray-600">
+							<article class="prose dark:prose-invert prose-h3:text-green-400 prose-h5:text-gray-600">
 								{#if searchResult.initVal && searchResult.val}
-									<h3 class="my-1">{ cleanNumber(searchResult.val) }  { searchResult.to } </h3>
+									<div>
+										<h3 class="my-1">{ cleanNumber(searchResult.val) }  { searchResult.to } 
+											<span tabindex="-2" class="hover:text-green-600 hover:cursor-pointer" on:keydown={() => {}} on:click={() => copyClip(searchResult.val)} title="Copy value" >
+												<Icon icon="material-symbols:content-copy-outline" />
+											</span>
+										</h3>
+									</div>
 								{/if}
-								{#if searchResult.from && searchResult.to}
+								{#if searchResult.dimensions.join("") === searchResult.baseFrom.dimensions.join("") && searchResult.from && searchResult.to}
 									<div>
 										<a href={createLink()}>{ searchResult.from } {"->"} { searchResult.to } <Icon icon="material-symbols:open-in-new-rounded" /></a>
 									</div>
 								{/if}
-								{#if searchResult.qty && searchResult.qtyWord}
+								{#if searchResult.dimensions.join("") === searchResult.baseFrom.dimensions.join("") && searchResult.qty && searchResult.qtyWord}
 									<div>
 										<a href={`/${$page.params.lang}/${searchResult.qty.toLowerCase()}`}>{ searchResult.qtyWord } <Icon icon="material-symbols:open-in-new-rounded" /></a>
 									</div>
