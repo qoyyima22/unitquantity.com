@@ -6,7 +6,6 @@
 	import Icon from '@iconify/svelte';
 	import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
 	import { toast, unitsToAppend } from '$lib/stores.js'
-
 	let instantConvertModel = '';
 	let pageDataTr = $page.data.translations
 	$: searchResult = {}
@@ -225,7 +224,7 @@
 		<label for="my-drawer-3" class="drawer-overlay" />
 		<ul class="menu p-4 w-80 bg-base-100">
 			{#each Object.keys(pageDataTr?.QTS || {}) as qty, i}
-				<li><a href={`/${$page.params.lang}/${qty.toLowerCase()}`}>{pageDataTr?.QTS[qty]}</a></li>
+				<li><a href={`/${$page.params.lang || 'en'}/${qty.toLowerCase()}`}>{pageDataTr?.QTS[qty]}</a></li>
 			{/each}
 		</ul>
 	</div>
