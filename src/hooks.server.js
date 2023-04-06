@@ -10,7 +10,7 @@ export async function handle({ event, resolve }) {
       const { fallBackPlatformToMiniFlareInDev } = await import('./miniflare');
       event.platform = await fallBackPlatformToMiniFlareInDev(event.platform);
     }
-    if(!supportedLangs.includes(event.params.lang) && !event.url.pathname.includes("/api/")) {
+    if(!supportedLangs.includes(event.params.lang) && !event.url.pathname.includes("/api/") && !event.url.origin.includes('sveltekit-prerender')) {
       const urlPath = `${event.url.origin}/en${event.url.pathname === "/" ? "": event.url.pathname}${event.url.search ? event.url.search+'&redirect=1' : '?redirect=1'}`;
       console.log(urlPath, "ini urlPath")
       const proxiedUrl = new URL(urlPath);
