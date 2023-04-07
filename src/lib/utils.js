@@ -44,5 +44,3 @@ export const cleanNumber = (v) => {
   }
   return v
 }
-
-export const supportedLangs = ["en","id","ar"]

@@ -2,22 +2,15 @@
 	import UnitConverter from '../../../UnitConverter.svelte';
 	import Breadcrumbs from '../../../Breadcrumbs.svelte';
 	import { page } from '$app/stores';
-	import { supportedLangs } from "$lib/utils.js"
   	/** @type {import('./$types').PageData} */
 	export let data;
 	$: ( { translations, converter } = data)
 	$: ( { COMMON: cm, QTS: qt, UNITS: un, PREFIXES: pr } = translations)
 	$: genTitle = () => {
-		let from, to
-		if(!supportedLangs.includes($page.params.lang)) {
-			from = $page.params.qty.split("-to-")[0]
-			to = $page.params.qty.split("-to-")[1]
-		} else {
-			from = $page.params.units.split("-to-")[0]
-			to = $page.params.units.split("-to-")[1]
-		}
+		let from = $page.params.units.split("-to-")[0]
 		let fromPr = from.split("-")[0]
 		let fromV = from.split("-")[1]
+		let to = $page.params.units.split("-to-")[1]
 		let toPr = to.split("-")[0]
 		let toV = to.split("-")[1]
 		return `${pr[fromPr] || ""}${un[fromV] || un[from]} to ${pr[toPr] || ""}${un[toV] || un[to]}`
