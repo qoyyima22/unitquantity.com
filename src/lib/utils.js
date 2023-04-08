@@ -1,3 +1,7 @@
+import * as translations from '$lib/translations/index.js';
+import { browser } from '$app/environment';
+import { UNITS_RAW, BASE_UNITS_RAW as BASE_UNITS, PREFIXES_RAW as PREFIXES} from '$lib/math/type/unit/Data.js';
+import { evaluate, unit, createUnit, Unit } from '$lib/math';
 export const copyTextToClipboard = (text) => {
     var textArea = document.createElement("textarea");
     textArea.style.position = 'fixed';
@@ -43,4 +47,55 @@ export const cleanNumber = (v) => {
     }
   }
   return v
+}
+
+export const getUnitsToAppend = async(fetch, isNotCreateUnit = false) => {
+  let unitsToAppend = {}
+  const response = await fetch('/api/currency', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
+    }
+  });
+  let a = await response.json()
+  let currency = JSON.parse(a);
+  let curs = currency.result.data
+  let USD = curs.find(el => el.c === "USD")
+  try {
+    if(browser && !isNotCreateUnit) {
+      // !Unit.isValuelessUnit(USD.c) && createUnit(USD.c, { baseName: "CURRENCY" })
+      // !Unit.isValuelessUnit(USD.c.toLowerCase()) && createUnit(USD.c.toLowerCase(), '1 USD', { baseName: "CURRENCY" })
+      // !Unit.isValuelessUnit(USD.n.replace(/ /g,"")) && createUnit(USD.n.replace(/ /g,""), '1 USD', { baseName: "CURRENCY" })
+      !Unit.isValuelessUnit(USD.c) && createUnit(USD.c, '1 USDollar')
+      !Unit.isValuelessUnit(USD.c.toLowerCase()) && createUnit(USD.c.toLowerCase(), '1 USD')
+      !Unit.isValuelessUnit(USD.n.replace(/ /g,"")) && createUnit(USD.n.replace(/ /g,""), '1 USD')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  for (let i = 0; i < curs.length; i++) {
+    if (browser && curs[i].c !== "USD" && !isNotCreateUnit) {
+      // !Unit.isValuelessUnit(curs[i].c) && createUnit(curs[i].c, `${1 / Number(curs[i].v)} ${USD.c}`, { baseName: "CURRENCY" })
+      !Unit.isValuelessUnit(curs[i].c) && createUnit(curs[i].c, `${1 / Number(curs[i].v)} ${USD.c}`)
+      // !Unit.isValuelessUnit(curs[i].c.toLowerCase()) && createUnit(curs[i].c.toLowerCase(), `${1 / Number(curs[i].v)} ${USD.c}`, { baseName: "CURRENCY" })
+      !Unit.isValuelessUnit(curs[i].c.toLowerCase()) && createUnit(curs[i].c.toLowerCase(), `${1 / Number(curs[i].v)} ${USD.c}`)
+      // !Unit.isValuelessUnit(curs[i].n.replace(/ /g,"")) && createUnit(curs[i].n.replace(/ /g,""), `${1 / Number(curs[i].v)} ${USD.c}`, { baseName: "CURRENCY" })
+      !Unit.isValuelessUnit(curs[i].n.replace(/ /g,"")) && createUnit(curs[i].n.replace(/ /g,""), `${1 / Number(curs[i].v)} ${USD.c}`)
+    }
+    unitsToAppend[curs[i].n.replace(/ /g,'')] = {
+      name: curs[i].n.replace(/ /g,''),
+      base: BASE_UNITS.CURRENCY,
+      prefixes: PREFIXES.NONE,
+      value: 1/Number(curs[i].v),
+      offset: 0
+    }
+    unitsToAppend[curs[i].c] = {
+      name: curs[i].c,
+      base: BASE_UNITS.CURRENCY,
+      prefixes: PREFIXES.NONE,
+      value: 1/Number(curs[i].v),
+      offset: 0
+    }
+  }
+  return unitsToAppend
 }

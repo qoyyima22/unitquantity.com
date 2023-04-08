@@ -2,6 +2,7 @@ import * as translations from '$lib/translations/index.js';
 import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
 export const prerender = false;
 export const csr = true;
+import { getUnitsToAppend } from '$lib/utils.js';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, fetch, ...x }) {
@@ -10,7 +11,9 @@ export async function load({ params, fetch, ...x }) {
   let UNIT0 = x.url.searchParams.get('unit0')
   let UNIT1 = x.url.searchParams.get('unit1')
   let VALUE0 = x.url.searchParams.get('value0')
-  let units = getUnits(ACTIVE_TAB, TRANSLATIONS);
+  let unitsToAppend = {}
+  if(params.qty === "currency") unitsToAppend = await getUnitsToAppend(fetch, true)
+  let units = getUnits(ACTIVE_TAB, TRANSLATIONS, unitsToAppend);
   let links = []
   for (let i = 0; i < units.length; i++) {
     let a = units[i]
@@ -38,7 +41,7 @@ export async function load({ params, fetch, ...x }) {
   }
 }
 
-let getUnits = (activeTab, translations) => {
+let getUnits = (activeTab, translations, unitsToAppend) => {
   let [pr, un] = [translations.PREFIXES, translations.UNITS]
   let temp;
   if (activeTab === 'NONE') {
@@ -47,7 +50,7 @@ let getUnits = (activeTab, translations) => {
       ...Object.keys(PREFIXES_RAW.SHORT).map((el) => ({ ...PREFIXES_RAW.SHORT[el] }))
     ];
   } else {
-    let allUnits = { ...UNITS_RAW() }
+    let allUnits = { ...UNITS_RAW(), ...unitsToAppend }
     temp = activeTab ? Object.keys(allUnits)
       .map((el) => ({ ...allUnits[el] }))
       .filter(

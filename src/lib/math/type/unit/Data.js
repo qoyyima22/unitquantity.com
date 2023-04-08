@@ -2327,6 +2327,13 @@ export var UNITS_RAW = (Complex={I:1},BASE_UNITS=BASE_UNITS_RAW,PREFIXES=PREFIXE
         value: 8,
         offset: 0
     },
+    USDollar: {
+        name: 'USDollar',
+        base: BASE_UNITS.CURRENCY,
+        prefixes: PREFIXES.NONE,
+        value: 1,
+        offset: 0
+    }
 })};
 
 export var ALIASES_RAW = {

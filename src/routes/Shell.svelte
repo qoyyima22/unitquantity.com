@@ -1,10 +1,10 @@
 <script>
-	import { evaluate, unit } from '$lib/math';
+	import { evaluate, unit, number } from '$lib/math';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { copyTextToClipboard, cleanNumber } from "$lib/utils.js"
 	import Icon from '@iconify/svelte';
-	import { UNITS_RAW, BASE_UNITS_RAW, PREFIXES_RAW } from '$lib/math/type/unit/Data.js';
+	import { UNITS_RAW } from '$lib/math/type/unit/Data.js';
 	import { toast, unitsToAppend } from '$lib/stores.js'
 
 	let instantConvertModel = '';
@@ -15,11 +15,9 @@
 			let evalRes = evaluate(instantConvertModel);
 			let init = instantConvertModel.split(' to ')[0];
 			let out = instantConvertModel.split(' to ')[1];
-			console.log(init, out);
 			let unitInfo = unit(init)
 			let unitInfoOut = unit(out)
 			let unitRes = unitInfo.toNumber(out);
-			console.log(unitInfo, unitInfoOut, unitRes, '2222');
 			searchResult = {
 				dimensions: unitInfo?.dimensions,
 				qty: unitInfo?.units?.[0]?.unit?.base?.key,
@@ -44,17 +42,15 @@
 	  let { qty,qtyWord,val,initVal,from,baseFrom,prefixFrom,fromWord,to,toWord,baseTo,prefixTo, } = searchResult
 	  let link = `/${$page.params.lang}/${qty.toLowerCase()}/`
 	  let lv3 = `${prefixFrom ? `${prefixFrom}-${baseFrom}` : from}-to-${prefixTo ? `${prefixTo}-${baseTo}` : to}`
-	  if(searchResult.qty !== "CURRENCY") {
-      let units = {...UNITS_RAW()}
+      let units = {...UNITS_RAW(), ...$unitsToAppend}
       let arr = Object.keys(units)
-      let f = arr.find(el => units[el].base.dimensions.join("") === baseFrom.dimensions.join("") && units[el].value === baseFrom.value && units[el].offset === baseFrom.offset)
-      let fps = units[f].prefixes
-      let fp = Object.keys(fps).find(el => units[f].prefixes[el].value === prefixFrom.value)
-      let t = arr.find(el => units[el].base.dimensions.join("") === baseTo.dimensions.join("") && units[el].value === baseTo.value && units[el].offset === baseTo.offset)
-      let tps = units[t].prefixes
-      let tp = Object.keys(tps).find(el => units[f].prefixes[el].value === prefixTo.value)
-	  	lv3 = `${fp ? `${fp}-${f}` : f}-to-${tp ? `${tp}-${t}` : t}`
-	  }
+      let f = arr.find(el => units[el].base.dimensions.join("") === baseFrom.dimensions.join("") && units[el].value === number(baseFrom.value) && units[el].offset === baseFrom.offset)
+      let fps = units[f]?.prefixes || {name: '', value: 1, scientific: true}
+      let fp = Object.keys(fps).find(el => fps[el].value === prefixFrom.value)
+      let t = arr.find(el => units[el].base.dimensions.join("") === baseTo.dimensions.join("") && units[el].value === number(baseTo.value) && units[el].offset === baseTo.offset)
+      let tps = units[t]?.prefixes || {name: '', value: 1, scientific: true}
+      let tp = Object.keys(tps).find(el => tps[el].value === prefixTo.value)
+	  lv3 = `${fp ? `${fp}-${f}` : f}-to-${tp ? `${tp}-${t}` : t}`
 	  return link+lv3
 	}
 	let copyClip = (v) => {

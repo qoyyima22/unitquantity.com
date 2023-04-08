@@ -1210,7 +1210,7 @@ export var createUnitClass = /* #__PURE__ */factory(name, dependencies, _ref => 
    *
    */
 
-  var BASE_DIMENSIONS = ['MASS', 'LENGTH', 'TIME', 'CURRENT', 'TEMPERATURE', 'LUMINOUS_INTENSITY', 'AMOUNT_OF_SUBSTANCE', 'ANGLE', 'BIT'];
+  var BASE_DIMENSIONS = ['MASS', 'LENGTH', 'TIME', 'CURRENT', 'TEMPERATURE', 'LUMINOUS_INTENSITY', 'AMOUNT_OF_SUBSTANCE', 'ANGLE', 'BIT', 'CURRENCY'];
   var BASE_UNITS = {...BASE_UNITS_RAW}
   for (var key in BASE_UNITS) {
     if (hasOwnProperty(BASE_UNITS, key)) {
