@@ -108,7 +108,7 @@ export const UNITS = {
     // surface
     acre: "acre",
     hectare: "hectare",
-    squaremeter: "square meter",
+    squaremeter: "square {pr}meter",
     squareinch: "square inch",
     squarefeet: "square feet",
     squareyard: "square yard",
@@ -117,7 +117,7 @@ export const UNITS = {
     squarechain: "square chain",
     squaremil: "square mil",
     // volume
-    cubicmeter: "cubic meter",
+    cubicmeter: "cubic {pr}meter",
     litre: "litre",
     cuin: "cubic inch",
     cuft: "cubic feet",

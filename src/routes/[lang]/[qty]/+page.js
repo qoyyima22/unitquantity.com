@@ -66,7 +66,8 @@ let getUnits = (activeTab, translations) => {
           name: `${el2}${el.name}`,
           value: el.prefixes[el2].value * el.value,
           offset: el.offset,
-          dName: (pr?.[el2] || un?.[el.name]) ? `${pr[el2] || ""}${un[el.name] || el.name}` : `${el2}${el.name}`,
+          // dName: (pr?.[el2] || un?.[el.name]) ? `${pr[el2] || ""}${un[el.name] || el.name}` : `${el2}${el.name}`,
+					dName: (pr?.[el2] || un?.[el.name]) ? `${un[el.name].includes("{pr}")? "" : (pr[el2] || "")}${un[el.name].replace("{pr}", (pr[el2] || "")) || el.name}` : `${el2}${el.name}`,
           prefix: el2,
           baseName: el.name
         });

@@ -13,7 +13,7 @@
 		let to = $page.params.units.split("-to-")[1]
 		let toPr = to.split("-")[0]
 		let toV = to.split("-")[1]
-		return `${pr[fromPr] || ""}${un[fromV] || un[from]} to ${pr[toPr] || ""}${un[toV] || un[to]}`
+		return `${(un[fromV] || un[from]).includes("{pr}") ? "" : (pr[fromPr] || "")}${(un[fromV] || un[from]).replace("{pr}", (pr[fromPr] || ""))} to ${(un[toV] || un[to]).includes("{pr}") ? "" : (pr[toPr] || "")}${(un[toV] || un[to]).replace("{pr}", (pr[toPr] || ""))}`
 	}
 </script>
 

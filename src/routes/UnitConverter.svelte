@@ -55,7 +55,7 @@
 						name: `${el2}${el.name}`,
 						value: el.prefixes[el2].value * el.value,
 						offset: el.offset,
-						dName: (pr?.[el2] || un?.[el.name]) ? `${pr[el2] || ""}${un[el.name] || el.name}` : `${el2}${el.name}`
+						dName: (pr?.[el2] || un?.[el.name]) ? `${un[el.name].includes("{pr}")? "" : (pr[el2] || "")}${un[el.name].replace("{pr}", (pr[el2] || "")) || el.name}` : `${el2}${el.name}`
 					});
 				});
 			} else if(activeTab === "NONE") {
