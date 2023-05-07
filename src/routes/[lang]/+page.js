@@ -1,4 +1,5 @@
 import * as translations from '$lib/translations/index.js';
+import * as articles from '$lib/translations/articles/index.js';
 // import { building } from '$app/environment';
 export const prerender = false;
 export const csr = true;
@@ -6,6 +7,8 @@ export const csr = true;
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, fetch, ...x }) {
   let TRANSLATIONS = translations.default[params.lang] || {}
+  let {ar_quantity, ar_unit, ar_unitquantitycom} = articles.default[params.lang].default || {}
+  let ARTICLES = [ar_quantity, ar_unit, ar_unitquantitycom]
   let ACTIVE_TAB = x.url.searchParams.get('qty')?.toUpperCase()
   let UNIT0 = x.url.searchParams.get('unit0')
   let UNIT1 = x.url.searchParams.get('unit1')
@@ -14,6 +17,7 @@ export async function load({ params, fetch, ...x }) {
     translations: {
       ...TRANSLATIONS
     },
+    articles: ARTICLES,
     converter: {
       activeTab: ACTIVE_TAB || 'NONE',
       activeUnit0: UNIT0,

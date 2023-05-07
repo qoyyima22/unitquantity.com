@@ -5,7 +5,7 @@
 	import { BASE_UNITS_RAW } from '$lib/math/type/unit/Data.js'
   	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ( { translations, converter } = data)
+	$: ( { translations, converter, articles } = data)
 	$: ( { COMMON: cm } = translations)
 </script>
 
@@ -26,6 +26,16 @@
 		</div> -->
 		<!-- <Counter /> -->
 		<UnitConverter qts={Object.keys(BASE_UNITS_RAW)} {translations} {...converter} />
+		{#each articles as article, index}
+			<h2>
+				{article.title}
+			</h2>
+			{#each article.content.split(/\r?\n/) as paragraph, iPar}
+				<p class="text-justify">
+					{paragraph}
+				</p>
+			{/each}
+		{/each}
 	</article>
 
 <style>
